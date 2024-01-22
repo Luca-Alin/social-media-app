@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: 20
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
       # Copy the dist folder content to the root of the repository
       - name: Copy dist folder
