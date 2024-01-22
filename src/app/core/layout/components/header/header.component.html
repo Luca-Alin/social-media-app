@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+    <form class="form-inline my-2 my-lg-0" [formGroup]="profileForm">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+             formControlName="searchedUsername">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Search</button>
+    </form>
+
+    <app-dark-theme-button></app-dark-theme-button>
+
+    @if (localStorage.getItem("accessToken") == null) {
+      <div>
+        <a routerLink="/authentication/register" class="btn">Register</a>
+        <a routerLink="/authentication/login" class="btn">Login</a>
+      </div>
+    } @else {
+      <div>
+        @if(user != null){
+          <div>{{user.firstName}} {{ user.lastName }}</div>
+        }
+        <button (click)="logout()" class="btn">Logout</button>
+      </div>
+    }
+
+  </div>
+
+</nav>

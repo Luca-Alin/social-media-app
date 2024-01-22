@@ -1,0 +1,10 @@
+<form [formGroup]="profileForm" (ngSubmit)="login()">
+  <input type="email" formControlName="email"/>
+  <br>
+  <input type="password" formControlName="password"/>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+
+<a routerLink="/authentication/register">Sign up for SocialMediaApp</a>

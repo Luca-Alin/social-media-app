@@ -1,0 +1,7 @@
+@if(isLoading) {
+  <app-loading-page/>
+} @else {
+  @for (post of posts; track post) {
+    <app-post [post]="post"></app-post>
+  }
+}

@@ -1,0 +1,73 @@
+<!--<form>-->
+<!--  <div class="form-floating">-->
+<!--    <input type="email" id="email" class="form-control"-->
+<!--           placeholder="Place email here">-->
+<!--    <label for="email" class="form-label">Email</label>-->
+<!--  </div>-->
+<!--  <button>Submit</button>-->
+<!--</form>-->
+
+<div class="container">
+
+
+  <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
+
+    <div class="form-floating">
+      <input type="email" id="email" class="form-control" placeholder="Email">
+      <label for="email" class="form-label">Email</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" formControlName="firstName" placeholder="First Name"
+             class="form-control" id="firstName"/>
+      <label for="firstName">First Name</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" formControlName="lastName" placeholder="Last Name"
+             class="form-control" id="lastName"/>
+      <label for="lastName">Last Name</label>
+    </div>
+
+    <div>
+      <input type="password" formControlName="password" placeholder="Password"
+             class="form-control" id="password"/>
+      <label for="password">Password</label>
+    </div>
+
+<!--    <label for="selectedYear">Select Year:</label>
+    <select formControlName="selectedYear" id="selectedYear">
+      <option *ngFor="let year of getLast100Years()">{{ year }}</option>
+    </select>
+
+    <br />
+
+    <label for="selectedMonth">Select Month:</label>
+    <select formControlName="selectedMonth" id="selectedMonth">
+      <option *ngFor="let month of getAllMonths()">{{ month }}</option>
+    </select>
+
+    <br />
+
+    <label for="inputDate">Enter Date (YYYY-MM-DD):</label>
+    <input type="text" formControlName="inputDate" id="inputDate"/>
+
+    <br />
+
+    <br>
+    <br>
+    <input type="radio" name="gender" value="Male" id="male">
+    <label>Male</label>
+    <input type="radio" name="gender" value="Female" id="female">
+    <label>Female</label>
+    <input type="radio" name="gender" value="Other" id="gender">
+    <label>Other</label>-->
+
+    <br>
+    <button type="submit">Sign Up</button>
+  </form>
+
+</div>
+
+
+<a routerLink="/authentication/login">Already have an account?</a>
