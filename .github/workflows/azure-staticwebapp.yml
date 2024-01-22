@@ -21,10 +21,10 @@ jobs:
           lfs: false
 
       # If you don't want to rebuild, you can skip setting up Node.js and installing dependencies
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 20
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       # - name: Install dependencies
       #   run: npm install
