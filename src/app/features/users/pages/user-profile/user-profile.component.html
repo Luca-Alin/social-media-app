@@ -1,5 +1,5 @@
 @if (user != null) {
-  @if (tokensService.accessToken == null) {
+  @if (localStorage.getItem("accessToken") == null) {
 
   } @else if (friendshipStatus == "RECEIVED") {
     <div>

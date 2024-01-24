@@ -67,4 +67,5 @@ export class UserProfileComponent implements OnInit {
   }
 
 
+  protected readonly localStorage = localStorage;
 }
