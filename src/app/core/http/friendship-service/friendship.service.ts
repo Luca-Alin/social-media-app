@@ -4,7 +4,6 @@ import {FriendshipDTO} from "./models/FriendshipDTO";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {GlobalService} from "../../services/global.service";
-import {TokensService} from "../../services/tokens-service/tokens.service";
 
 @Injectable({
   providedIn: "root"
@@ -14,8 +13,7 @@ export class FriendshipService {
   apiUrl: string = `${this.globalService.baseURL}/friendship`;
 
   constructor(private globalService: GlobalService,
-              private http: HttpClient,
-              private tokensService: TokensService) {
+              private http: HttpClient) {
   }
 
   sendFriendshipRequest(user: UserDTO): Observable<string> {
@@ -23,7 +21,7 @@ export class FriendshipService {
       id: user.id
     }, {
       headers: {
-        Authorization: `Bearer ${this.tokensService.accessToken}`
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
       }
     });
   }
@@ -34,7 +32,7 @@ export class FriendshipService {
       id: user.id
     }, {
       headers: {
-        Authorization: `Bearer ${this.tokensService.accessToken}`
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
       }
     });
   }
@@ -54,6 +52,6 @@ export class FriendshipService {
   }
 
   rejectFriendshipRequest(friend: UserDTO): void {
-    throw new Error("Method not implemented.");
+    throw new Error("Method not implemented." + friend);
   }
 }

@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
 import {AuthenticationService} from "../../../../core/http/authentication-service/authentication.service";
-import {TokensService} from "../../../../core/services/tokens-service/tokens.service";
 
 @Component({
   selector: "app-login",
@@ -27,8 +26,7 @@ export class LoginComponent {
   });
 
   constructor(private authService: AuthenticationService,
-              private router: Router,
-              private tokensService: TokensService) {
+              private router: Router) {
   }
 
   login() {
@@ -43,11 +41,15 @@ export class LoginComponent {
         password: this.profileForm.value.password
       }
     ).subscribe(res => {
-      this.tokensService.accessToken = res.accessToken;
-      this.tokensService.refreshToken = res.refreshToken;
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
       this.router.navigate(["/home"]).then(() => {
         console.log("Routing to home page")
       });
     });
+  }
+
+  refresh() {
+    this.authService.refresh();
   }
 }

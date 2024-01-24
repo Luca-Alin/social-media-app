@@ -4,6 +4,8 @@ import {Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UserDTO} from "../../../http/user-service/model/UserDTO";
 import {UserService} from "../../../http/user-service/user.service";
+import {interval} from "rxjs";
+import {JwtTimerComponent} from "../jwt-timer/jwt-timer.component";
 
 @Component({
   selector: "app-header",
@@ -11,7 +13,8 @@ import {UserService} from "../../../http/user-service/user.service";
   imports: [
     DarkThemeButtonComponent,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    JwtTimerComponent
   ],
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css"
@@ -28,8 +31,12 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  timerValue: number = 0;
   ngOnInit(): void {
     this.getUser();
+    interval(1000).subscribe(() => {
+      this.timerValue++;
+    });
   }
 
   search() {
@@ -40,7 +47,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
 
   getUser() {

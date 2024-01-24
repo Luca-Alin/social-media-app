@@ -13,7 +13,7 @@ import {FriendshipService} from "./http/friendship-service/friendship.service";
 import {HttpInterceptorService} from "./http/interceptor/http-interceptor.service";
 import {UserService} from "./http/user-service/user.service";
 import {ImageService} from "./services/image-service/ImageService";
-import {TokensService} from "./services/tokens-service/tokens.service";
+import {AuthInterceptor} from "./http/interceptor/auth.interceptor";
 
 @NgModule({
   declarations: [],
@@ -35,10 +35,14 @@ import {TokensService} from "./services/tokens-service/tokens.service";
     ImageService,
     UserService,
     GlobalService,
-    TokensService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

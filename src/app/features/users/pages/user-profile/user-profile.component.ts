@@ -5,7 +5,6 @@ import {FriendshipService} from "../../../../core/http/friendship-service/friend
 import {UserService} from "../../../../core/http/user-service/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {PostService} from "../../../../core/http/post-service/post.service";
-import {TokensService} from "../../../../core/services/tokens-service/tokens.service";
 import {LoadingPageComponent} from "../../../../core/layout/components/loading-page/loading-page.component";
 import {ImageService} from "../../../../core/services/image-service/ImageService";
 import {PostComponent} from "../../../../shared/post/post.component";
@@ -30,7 +29,6 @@ export class UserProfileComponent implements OnInit {
               private userService: UserService,
               private activatedRoute: ActivatedRoute,
               private postService: PostService,
-              protected tokensService: TokensService,
               protected imageService: ImageService) {
   }
 
