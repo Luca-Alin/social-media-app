@@ -7,15 +7,14 @@ import {Observable} from "rxjs";
 })
 export class HttpInterceptorService implements HttpInterceptor {
   constructor() {
-    console.log("http interceptor");
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("Intercepting");
 
     const setHeaders: boolean = !(req.url.includes("/auth/") || req.url.includes("/public/"));
 
     if (setHeaders) {
+      console.log(`Intercepting ${req.url}`);
       req = req.clone({
         setHeaders: {
           "Content-Type": "application/json; charset=utf-8",

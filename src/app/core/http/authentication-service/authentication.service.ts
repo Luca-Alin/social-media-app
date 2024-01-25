@@ -10,8 +10,6 @@ import {RegisterModel} from "./models/RegisterModel";
   providedIn: "root"
 })
 export class AuthenticationService {
-  static accessToken: string | null = localStorage.getItem("accessToken");
-  static refreshToken: string | null = localStorage.getItem("refreshToken");
   apiUrl = `${this.globalService.baseURL}/auth`;
 
   constructor(private globalService: GlobalService,
@@ -32,7 +30,7 @@ export class AuthenticationService {
     });
   }
 
-  refresh() : Observable<AuthenticationResponse> {
+  refreshToken() : Observable<AuthenticationResponse> {
     return this.http.post<AuthenticationResponse>(`${this.apiUrl}/refresh-token`, null, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("refreshToken")}`
@@ -50,4 +48,8 @@ export class AuthenticationService {
   }
 
 
+  logout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  }
 }

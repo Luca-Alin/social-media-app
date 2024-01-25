@@ -1,33 +1,25 @@
 import {Injectable} from "@angular/core";
 import {HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {catchError, switchMap} from "rxjs/operators";
+import {catchError, Observable, switchMap, tap, throwError} from "rxjs";
 import {AuthenticationService} from "../authentication-service/authentication.service";
 import {Router} from "@angular/router";
-import {EventData} from "../../services/event-bus-service/models/EventData";
-import {EventBusService} from "../../services/event-bus-service/event-bus-service.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
 
   constructor(private authService: AuthenticationService,
-              private router: Router,
-              private eventBusService: EventBusService) {
+              private router: Router) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    req = req.clone({
-      withCredentials: true
-    });
-
     return next.handle(req).pipe(
       catchError((error) => {
         if (
           error instanceof HttpErrorResponse &&
-          !req.url.includes("auth/signin") &&
           (error.status === 401 || error.status === 403)
         ) {
+          console.log(`401 or 403 request: ${req.url}`);
           return this.handle40xError(req, next);
         }
 
@@ -37,11 +29,28 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handle40xError(request: HttpRequest<any>, next: HttpHandler) {
+    console.log("handle40xError")
+    if (localStorage.getItem("accessToken") == null || localStorage.getItem("refreshToken") == null) {
+      this.router.navigate(["/authentication/login"]).then(r => {
+        console.log("Navigating to Login Page 🚢")
+      })
+    }
+
+
     if (!this.isRefreshing) {
       this.isRefreshing = true;
 
-      if (localStorage.getItem("accessToken") != null) {
-        return this.authService.refresh().pipe(
+      if (localStorage.getItem("refreshToken")) {
+        return this.authService.refreshToken().pipe(
+          tap(() => {
+            request = request.clone({
+              setHeaders: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+              }
+            });
+          }),
           switchMap(() => {
             this.isRefreshing = false;
 
@@ -51,7 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.isRefreshing = false;
 
             if (error.status == "403") {
-              this.eventBusService.emit(new EventData("logout", null));
+
             }
 
             return throwError(() => error);

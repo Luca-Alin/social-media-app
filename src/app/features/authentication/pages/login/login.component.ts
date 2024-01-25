@@ -50,6 +50,6 @@ export class LoginComponent {
   }
 
   refresh() {
-    this.authService.refresh();
+    this.authService.refreshToken();
   }
 }

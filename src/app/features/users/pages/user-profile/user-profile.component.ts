@@ -32,7 +32,8 @@ export class UserProfileComponent implements OnInit {
               protected imageService: ImageService) {
   }
 
-  sendFriendRequest(user: UserDTO): void {
+  sendFriendRequest(user: UserDTO,
+                    ): void {
     this.friendshipService.sendFriendshipRequest(user).subscribe(res => {
       console.log(res)
     });
