@@ -1,20 +1,25 @@
-<form [formGroup]="profileForm" (ngSubmit)="login()">
-  <input type="email" formControlName="email"/>
-  <br>
-  <input type="password" formControlName="password"/>
-  <br>
-  <button type="submit">Submit</button>
-</form>
+<div class="container pt-4 d-flex justify-content-center">
+  <div>
+    <form [formGroup]="profileForm" (ngSubmit)="login()">
+      <input type="email" formControlName="email"/>
+      <br>
+      <input type="password" formControlName="password"/>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
 
-<ol>
-  <div>Accounts: </div>
-  <li>teddysmith&#64;gmail.com</li>
-  <li>johndoe&#64;gmail.com</li>
-  <li>janedoe&#64;gmail.com</li>
-  <li>bobsmit&#64;gmail.com</li>
-  <li>Password: abc</li>
-</ol>
+    <div>Click below to log in as one of the following users: </div>
+    <ol>
+      @for(account of accounts; track account.email) {
+        <li>
+          <button (click)="useAccountFromList(account)" class="btn link-info">
+            {{account.email}}
+          </button>
+        </li>
+      }
+    </ol>
+    <div>Password: abc</div>
 
-<button (click)="refresh()">Test refresh token</button>
-
-<a routerLink="/authentication/register">Sign up for SocialMediaApp</a>
+    <a routerLink="/authentication/register">Sign up for SocialMediaApp</a>
+  </div>
+</div>

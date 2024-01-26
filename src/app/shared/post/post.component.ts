@@ -10,6 +10,7 @@ import {
   NgbAccordionHeader,
   NgbAccordionItem, NgbCarousel, NgbSlide
 } from "@ng-bootstrap/ng-bootstrap";
+import {LoadingPageComponent} from "../../core/layout/components/loading-page/loading-page.component";
 
 @Component({
   selector: "app-post",
@@ -24,7 +25,8 @@ import {
     NgbAccordionCollapse,
     NgbAccordionBody,
     NgbCarousel,
-    NgbSlide
+    NgbSlide,
+    LoadingPageComponent
   ],
   templateUrl: "./post.component.html",
   styleUrl: "./post.component.css"

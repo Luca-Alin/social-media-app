@@ -13,8 +13,8 @@ export class PostService {
   constructor(private globalService: GlobalService, private http: HttpClient) {
   }
 
-  getAllPosts(): Observable<PostDTO[]> {
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/all`);
+  getAllPosts(pageNumber : number , pageSize: number): Observable<PostDTO[]> {
+    return this.http.get<PostDTO[]>(`${this.apiUrl}/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
   getPostsByUserId(userId: number): Observable<PostDTO[]> {

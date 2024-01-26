@@ -2,10 +2,11 @@ import {Component, OnInit} from "@angular/core";
 import {DarkThemeButtonComponent} from "../dark-theme-button/dark-theme-button.component";
 import {Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {UserDTO} from "../../../http/user-service/model/UserDTO";
 import {UserService} from "../../../http/user-service/user.service";
-import {interval} from "rxjs";
 import {JwtTimerComponent} from "../jwt-timer/jwt-timer.component";
+import {AuthenticationService} from "../../../http/authentication-service/authentication.service";
+import {UserDTO} from "../../../http/user-service/model/UserDTO";
+import {interval} from "rxjs";
 
 @Component({
   selector: "app-header",

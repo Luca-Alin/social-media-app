@@ -2,6 +2,8 @@ import {Component} from "@angular/core";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
 import {AuthenticationService} from "../../../../core/http/authentication-service/authentication.service";
+import {LoginModel} from "../../../../core/http/authentication-service/models/LoginModel";
+import {UserService} from "../../../../core/http/user-service/user.service";
 
 @Component({
   selector: "app-login",
@@ -15,18 +17,31 @@ import {AuthenticationService} from "../../../../core/http/authentication-servic
 })
 export class LoginComponent {
   profileForm = new FormGroup({
-    firstName: new FormControl(""),
-    lastName: new FormControl(""),
     email: new FormControl(""),
-    password: new FormControl(""),
-    birthDay: new FormControl(""),
-    birthMonth: new FormControl(""),
-    birthYear: new FormControl(""),
-    gender: new FormControl("")
+    password: new FormControl("")
   });
+  accounts: LoginModel[] = [
+    {
+      email: "teddysmith@gmail.com",
+      password: "abc"
+    },
+    {
+      email: "johndoe@gmail.com",
+      password: "abc"
+    },
+    {
+      email: "janedoe@gmail.com",
+      password: "abc"
+    },
+    {
+      email: "bobsmith@gmail.com",
+      password: "abc"
+    }
+  ];
 
-  constructor(private authService: AuthenticationService,
-              private router: Router) {
+  constructor(protected authService: AuthenticationService,
+              private router: Router,
+              private userService: UserService) {
   }
 
   login() {
@@ -43,13 +58,18 @@ export class LoginComponent {
     ).subscribe(res => {
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
+      this.userService.findByToken();
       this.router.navigate(["/home"]).then(() => {
-        console.log("Routing to home page")
+        console.log("Routing to home page");
       });
     });
   }
 
-  refresh() {
-    this.authService.refreshToken();
+  useAccountFromList(loginModel: LoginModel) {
+
+    this.profileForm.value["email"] = loginModel.email;
+    this.profileForm.value["password"] = loginModel.password;
+
+    this.login();
   }
 }

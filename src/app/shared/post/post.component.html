@@ -1,48 +1,54 @@
 @if (post) {
-  <div id="content" class="pt-4" style="max-width: 600px">
-    <div id="post-user">
-      <img src="{{imageService.getImageElement(post.user.profileImage)}}" width="50px" height="50px" alt="">
-      <a routerLink="/user/profile/{{post.user.id}}">{{ post.user.firstName }} {{ post.user.lastName }}</a>
-    </div>
-    <br/>
+  @if (post.loading) {
+    <app-loading-page/>
+  } @else {
 
-    <div id="post-details">
-      <label> {{ post.content }}</label> <br/>
-      <label> {{ timeSince(post.createdAt) }}</label> <br/>
-    </div>
-    <br/>
+    <h1>{{post.id}}</h1>
+    <div id="content" class="pt-4" style="max-width: 600px">
+      <div id="post-user">
+        <img src="{{imageService.getImageElement(post.user.profileImage)}}" width="50px" height="50px" alt="">
+        <a routerLink="/user/profile/{{post.user.id}}">{{ post.user.firstName }} {{ post.user.lastName }}</a>
+      </div>
+      <br/>
 
-    @if (post.images) {
-      <ngb-carousel>
-        @for (image of post.images; track image) {
-          <ng-template ngbSlide>
-            <div class="carousel">
-              <img [src]="imageService.getImageElement(image)" width="100%" alt=""/>
-            </div>
-          </ng-template>
-        }
-      </ngb-carousel>
+      <div id="post-details">
+        <label> {{ post.content }}</label> <br/>
+        <label> {{ timeSince(post.createdAt) }}</label> <br/>
+      </div>
+      <br/>
 
-      <div class="overflow-y-auto" ngbAccordion>
-        <div ngbAccordionItem>
-          <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>Comments</button>
-          </h2>
-          <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-              <ng-template>
-                <div id="comments">
-                  @for (comment of post.comments; track comment.id) {
-                    <app-comment [comment]="comment"></app-comment>
-                  }
-                </div>
-              </ng-template>
+      @if (post.images) {
+        <ngb-carousel>
+          @for (image of post.images; track image) {
+            <ng-template ngbSlide>
+              <div class="carousel">
+                <img [src]="imageService.getImageElement(image)" width="100%" alt=""/>
+              </div>
+            </ng-template>
+          }
+        </ngb-carousel>
+
+        <div class="overflow-y-auto" ngbAccordion>
+          <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>Comments</button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <div id="comments">
+                    @for (comment of post.comments; track comment.id) {
+                      <app-comment [comment]="comment"></app-comment>
+                    }
+                  </div>
+                </ng-template>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
 
-    }
-  </div>
+      }
+    </div>
+  }
 }
