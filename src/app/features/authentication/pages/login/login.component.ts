@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
 import {AuthenticationService} from "../../../../core/http/authentication-service/authentication.service";
-import {LoginModel} from "../../../../core/http/authentication-service/models/LoginModel";
 import {UserService} from "../../../../core/http/user-service/user.service";
 
 @Component({
@@ -20,24 +19,6 @@ export class LoginComponent {
     email: new FormControl(""),
     password: new FormControl("")
   });
-  accounts: LoginModel[] = [
-    {
-      email: "teddysmith@gmail.com",
-      password: "abc"
-    },
-    {
-      email: "johndoe@gmail.com",
-      password: "abc"
-    },
-    {
-      email: "janedoe@gmail.com",
-      password: "abc"
-    },
-    {
-      email: "bobsmith@gmail.com",
-      password: "abc"
-    }
-  ];
 
   constructor(protected authService: AuthenticationService,
               private router: Router,
@@ -65,11 +46,17 @@ export class LoginComponent {
     });
   }
 
-  useAccountFromList(loginModel: LoginModel) {
+  useRandomAccount(): void {
+    this.authService.randomLogin()
+      .subscribe(res => {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        this.userService.findByToken().subscribe(() => {
+          this.router.navigate(["/home"]).then(() => {
+            console.log("Routing to home page");
+          });
+        });
+      });
 
-    this.profileForm.value["email"] = loginModel.email;
-    this.profileForm.value["password"] = loginModel.password;
-
-    this.login();
   }
 }

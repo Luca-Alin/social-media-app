@@ -1,3 +1,76 @@
+<div class="mt-5 p-1 border border-primary border-2 border-solid rounded">
+  @if (post) {
+    @if (post.loading) {
+      <app-loading-page/>
+    } @else {
+
+      <div class="d-flex flex-column">
+
+        <div class="d-flex flex-row">
+          <img src="{{imageService.getImageElement(post.user?.profileImage!)}}" width="50px" height="50px" alt="">
+          <a routerLink="/user/profile/{{post.user.uuid}}">{{ post.user.firstName }} {{ post.user.lastName }}</a>
+        </div>
+
+        <!-- Post Content -->
+        <div>
+          {{ post.content }}
+        </div>
+
+        <!-- Post Images -->
+        @if (post.images) {
+          <div class="mt-1">
+            @if(post.images.length == 1) {
+              <img [src]="imageService.getImageElement(post.images[0])" width="100%" alt=""/>
+            } @else {
+              <ngb-carousel [interval]="-1">
+                @for (image of post.images; track image) {
+                  <ng-template ngbSlide>
+                    <div class="carousel">
+                      <img [src]="imageService.getImageElement(image)" width="100%" alt=""/>
+                    </div>
+                  </ng-template>
+                }
+              </ngb-carousel>
+            }
+          </div>
+        }
+
+        <!-- Comment Section -->
+        <div class="overflow-y-auto" ngbAccordion>
+          <div ngbAccordionItem>
+            <h2 ngbAccordionHeader>
+              <button ngbAccordionButton>Comments</button>
+            </h2>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody>
+                <ng-template>
+                  <div>
+
+                    <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+                      <label>
+                        <input type="text" formControlName="comment" />
+                      </label>
+                      <button type="submit">Add Comment</button>
+                    </form>
+
+                  </div>
+                  <div id="comments">
+                    @for (comment of post.comments; track comment.id) {
+                      <app-comment [comment]="comment"></app-comment>
+                    }
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    }
+  }
+</div>
+<!--
+
 @if (post) {
   @if (post.loading) {
     <app-loading-page/>
@@ -17,38 +90,12 @@
       </div>
       <br/>
 
-      @if (post.images) {
-        <ngb-carousel>
-          @for (image of post.images; track image) {
-            <ng-template ngbSlide>
-              <div class="carousel">
-                <img [src]="imageService.getImageElement(image)" width="100%" alt=""/>
-              </div>
-            </ng-template>
-          }
-        </ngb-carousel>
 
-        <div class="overflow-y-auto" ngbAccordion>
-          <div ngbAccordionItem>
-            <h2 ngbAccordionHeader>
-              <button ngbAccordionButton>Comments</button>
-            </h2>
-            <div ngbAccordionCollapse>
-              <div ngbAccordionBody>
-                <ng-template>
-                  <div id="comments">
-                    @for (comment of post.comments; track comment.id) {
-                      <app-comment [comment]="comment"></app-comment>
-                    }
-                  </div>
-                </ng-template>
-              </div>
-            </div>
-          </div>
-        </div>
+
+
 
 
       }
     </div>
   }
-}
+}-->

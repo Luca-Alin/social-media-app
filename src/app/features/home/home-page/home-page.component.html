@@ -1,9 +1,15 @@
 @if (isLoading) {
   <app-loading-page/>
 } @else {
-  @for (post of posts; track post) {
-    <div class="container d-flex justify-content-center">
-      <app-post [post]="post"/>
+  <div class="d-flex row">
+    <div class="col col-6">
+      @for (post of posts; track post) {
+        <div class="">
+          <app-post [post]="post"/>
+        </div>
+      }
     </div>
-  }
+    <div class="col-4 position-fixed bottom-0 end-0">
+    </div>
+  </div>
 }

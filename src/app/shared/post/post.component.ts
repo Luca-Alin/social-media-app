@@ -11,6 +11,9 @@ import {
   NgbAccordionItem, NgbCarousel, NgbSlide
 } from "@ng-bootstrap/ng-bootstrap";
 import {LoadingPageComponent} from "../../core/layout/components/loading-page/loading-page.component";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {CommentService} from "../../core/http/comment-service/comment.service";
+import {CommentDTO} from "../../core/http/comment-service/models/CommentDTO";
 
 @Component({
   selector: "app-post",
@@ -26,7 +29,8 @@ import {LoadingPageComponent} from "../../core/layout/components/loading-page/lo
     NgbAccordionBody,
     NgbCarousel,
     NgbSlide,
-    LoadingPageComponent
+    LoadingPageComponent,
+    ReactiveFormsModule
   ],
   templateUrl: "./post.component.html",
   styleUrl: "./post.component.css"
@@ -35,7 +39,30 @@ export class PostComponent {
 
   @Input() post: PostDTO | null = null;
 
-  constructor(protected imageService: ImageService) {
+  commentForm = new FormGroup({
+    comment: new FormControl(''),
+  });
+
+  constructor(protected imageService: ImageService, private commentService: CommentService) {
+  }
+
+  protected addComment() {
+    if (typeof this.commentForm.value.comment != "string")
+      return;
+
+    const comment : CommentDTO = {
+      id: null,
+      post: this.post,
+      user: null,
+      content: this.commentForm.value.comment,
+      createdAt: null,
+    }
+    this.commentService.createComment(comment)
+      .subscribe(res => {
+        this.post?.comments.push(res);
+      });
+
+    this.commentForm.reset();
   }
 
   timeSince(date: Date): string {

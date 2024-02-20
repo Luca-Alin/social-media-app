@@ -8,6 +8,7 @@ import {PostService} from "../../../../core/http/post-service/post.service";
 import {LoadingPageComponent} from "../../../../core/layout/components/loading-page/loading-page.component";
 import {ImageService} from "../../../../core/services/image-service/ImageService";
 import {PostComponent} from "../../../../shared/post/post.component";
+import {FriendshipStatus} from "../../../../core/http/friendship-service/models/FriendshipStatus";
 
 @Component({
   selector: "app-user-profile",
@@ -23,7 +24,7 @@ export class UserProfileComponent implements OnInit {
 
   user: UserDTO | null = null;
   posts: PostDTO[] = [];
-  friendshipStatus: string = "none";
+  friendshipStatus: FriendshipStatus = FriendshipStatus.NONE;
 
   constructor(protected friendshipService: FriendshipService,
               private userService: UserService,
@@ -32,20 +33,21 @@ export class UserProfileComponent implements OnInit {
               protected imageService: ImageService) {
   }
 
-  sendFriendRequest(user: UserDTO,
-                    ): void {
-    this.friendshipService.sendFriendshipRequest(user).subscribe(res => {
-      console.log(res)
+  sendFriendRequest(): void {
+    console.log(this.user);
+
+    if (this.user == null) return;
+    this.friendshipService.sendFriendshipRequest(this.user).subscribe(res => {
+      this.friendshipStatus = res;
     });
   }
 
-  findUserAndFriendshipStatus(userId: number): void {
-    console.log("findUserAndFriendshipStatus");
+  findUserAndFriendshipStatus(userId: string): void {
     this.userService.findById(userId)
       .subscribe((response: UserDTO) => {
         this.user = response;
         this.friendshipService.checkFriendshipStatus(this.user)
-          .subscribe((response: string) => {
+          .subscribe((response) => {
             this.friendshipStatus = response;
           });
       });
@@ -57,7 +59,7 @@ export class UserProfileComponent implements OnInit {
     if (params == null)
       return;
 
-    let userId: number = Number.parseInt(params);
+    let userId: string = params;
     this.postService
       .getPostsByUserId(userId)
       .subscribe((data: PostDTO[]) => {
@@ -66,6 +68,7 @@ export class UserProfileComponent implements OnInit {
 
     this.findUserAndFriendshipStatus(userId);
   }
+
 
 
   protected readonly localStorage = localStorage;

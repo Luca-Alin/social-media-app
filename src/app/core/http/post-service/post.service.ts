@@ -8,20 +8,28 @@ import {PostDTO} from "./model/PostDTO";
   providedIn: "root"
 })
 export class PostService {
-  private apiUrl: string = `${this.globalService.baseURL}/posts`;
+  private apiUrl: string = `${this.globalService.baseUrl}/posts`;
 
   constructor(private globalService: GlobalService, private http: HttpClient) {
   }
 
   getAllPosts(pageNumber : number , pageSize: number): Observable<PostDTO[]> {
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/all?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    return this.http.get<PostDTO[]>(`${this.apiUrl}/?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
-  getPostsByUserId(userId: number): Observable<PostDTO[]> {
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/posts-posted-by-user-details/${userId}`);
+  getPostsByUserId(userId: string): Observable<PostDTO[]> {
+    return this.http.get<PostDTO[]>(`${this.apiUrl}/${userId}`);
   }
 
-  getAllPostsByFriends(): Observable<PostDTO[]> {
-    return this.http.get<PostDTO[]>(`${this.apiUrl}/all-posts-by-friends`);
+  createPost(postDTO: PostDTO) : Observable<PostDTO> {
+    return this.http.post<PostDTO>(`${this.apiUrl}/`, postDTO);
+  }
+
+  updatePost(postDTO: PostDTO) : Observable<PostDTO> {
+    return this.http.put<PostDTO>(`${this.apiUrl}/`, postDTO);
+  }
+
+  deletePost(id : string) : Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

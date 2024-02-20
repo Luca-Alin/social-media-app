@@ -1,8 +1,9 @@
 export interface UserDTO {
 
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  profileImage: string;
+  uuid: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  profileImage: string | null;
+  bio: string | null;
 }

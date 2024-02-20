@@ -1,25 +1,23 @@
-<div class="container pt-4 d-flex justify-content-center">
-  <div>
+<div class="d-flex justify-content-center align-items-center">
+
+  <div class="pt-5">
+
     <form [formGroup]="profileForm" (ngSubmit)="login()">
       <input type="email" formControlName="email"/>
       <br>
       <input type="password" formControlName="password"/>
       <br>
-      <button type="submit">Submit</button>
+      <div class="d-flex justify-content-between">
+
+        <button type="submit">Login</button>
+        <button (click)="useRandomAccount()">Random account</button>
+
+      </div>
     </form>
 
-    <div>Click below to log in as one of the following users: </div>
-    <ol>
-      @for(account of accounts; track account.email) {
-        <li>
-          <button (click)="useAccountFromList(account)" class="btn link-info">
-            {{account.email}}
-          </button>
-        </li>
-      }
-    </ol>
-    <div>Password: abc</div>
-
-    <a routerLink="/authentication/register">Sign up for SocialMediaApp</a>
+    <div class="pt-5">
+      <a routerLink="/authentication/register">Sign up for SocialMediaApp</a>
+    </div>
   </div>
+
 </div>

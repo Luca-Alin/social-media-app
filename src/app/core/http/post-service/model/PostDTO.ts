@@ -3,7 +3,8 @@ import {CommentDTO} from "../../comment-service/models/CommentDTO";
 
 export interface PostDTO {
   loading: boolean;
-  id: number;
+
+  uuid: string;
   content: string;
   createdAt: Date;
   user: UserDTO;

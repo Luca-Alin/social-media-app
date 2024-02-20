@@ -4,54 +4,36 @@ import {FriendshipDTO} from "./models/FriendshipDTO";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {GlobalService} from "../../services/global.service";
+import {FriendshipStatus} from "./models/FriendshipStatus";
 
 @Injectable({
   providedIn: "root"
 })
 export class FriendshipService {
 
-  apiUrl: string = `${this.globalService.baseURL}/friendship`;
+  apiUrl: string = `${this.globalService.baseUrl}/friendship`;
 
   constructor(private globalService: GlobalService,
               private http: HttpClient) {
   }
 
-  sendFriendshipRequest(user: UserDTO): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/send-friendship-request`, {
-      id: user.id
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-      }
-    });
+  sendFriendshipRequest(user: UserDTO): Observable<FriendshipStatus> {
+    return this.http
+      .post<FriendshipStatus>(`${this.apiUrl}/send`, user);
   }
 
-  checkFriendshipStatus(user: UserDTO): Observable<string> {
-    console.log(user);
-    return this.http.post<string>(`${this.apiUrl}/friendship-status`, {
-      id: user.id
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-      }
-    });
+  checkFriendshipStatus(user: UserDTO): Observable<FriendshipStatus> {
+    return this.http
+      .post<FriendshipStatus>(`${this.apiUrl}/friendship-status`, user);
   }
 
-  acceptFriendshipRequest(user: UserDTO): void {
-    this.http.post<string>(`${this.apiUrl}/accept-friendship`, {
-      userId: user.id
-    });
+  acceptFriendshipRequest(user: UserDTO): Observable<FriendshipStatus> {
+    return this.http
+      .post<FriendshipStatus>(`${this.apiUrl}/accept`, user);
   }
 
-  getReceivedFriendshipRequests(): Observable<FriendshipDTO[]> {
-    return this.http.get<FriendshipDTO[]>(`${this.apiUrl}/get-received-friendship-requests`);
-  }
-
-  getUsersFriendships(): Observable<FriendshipDTO[]> {
-    return this.http.get<FriendshipDTO[]>(`${this.apiUrl}/get-users-friends`);
-  }
-
-  rejectFriendshipRequest(friend: UserDTO): void {
-    throw new Error("Method not implemented." + friend);
+  deleteFriendship(user: UserDTO) : Observable<void> {
+    return this.http
+      .delete<void>(`${this.apiUrl}/accept`);
   }
 }

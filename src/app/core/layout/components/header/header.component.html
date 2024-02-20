@@ -1,36 +1,60 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<div class="bg-primary">
+  <div class="row">
 
-  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-
-    <form class="form-inline my-2 my-lg-0" [formGroup]="profileForm">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-             formControlName="searchedUsername">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Search</button>
-    </form>
-
-    <app-dark-theme-button></app-dark-theme-button>
-
-    @if (localStorage.getItem("accessToken") == null) {
-      <div>
-        <a routerLink="/authentication/register" class="btn">Register</a>
-        <a routerLink="/authentication/login" class="btn">Login</a>
+    <!-- LEFT -->
+    <div class="col d-flex justify-content-center align-content-center">
+      <div class="align-self-center">
+        <a class="fs-1" routerLink="home">Home</a>
       </div>
-    } @else {
-      <div>
-        @if(user != null){
-          <div>{{user.firstName}} {{ user.lastName }}</div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="col d-flex justify-content-center align-content-center">
+      <div class="align-self-center">
+        <form [formGroup]="profileForm" class="input-group mb-3">
+          <input type="text" class="form-control" formControlName="searchedUsername">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-light" type="button" (click)="search()">Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col d-flex justify-content-center align-content-center">
+      <div class="align-self-center">
+        @if (authenticationService.findLoggedInUser() == null) {
+
+          <div>
+            <a routerLink="/authentication/register" class="btn">Register</a>
+            <a routerLink="/authentication/login" class="btn">Login</a>
+          </div>
+        } @else {
+
+          <div>
+            <div ngbDropdown class="d-inline-block">
+              <button type="button" class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>
+                {{ authenticationService.findLoggedInUser()?.firstName }} {{ authenticationService.findLoggedInUser()?.lastName }}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <div class="d-flex justify-content-center">
+                  <app-dark-theme-button/>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <button (click)="logout()" class="btn">Logout</button>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <app-jwt-timer/>
+                </div>
+              </div>
+            </div>
+          </div>
         }
-        <button (click)="logout()" class="btn">Logout</button>
-      </div>
-    }
 
-    <app-jwt-timer></app-jwt-timer>
+      </div>
+
+    </div>
+
 
   </div>
-
-</nav>
+</div>

@@ -1,41 +1,19 @@
 @if (user != null) {
-  @if (localStorage.getItem("accessToken") == null) {
-
-  } @else if (friendshipStatus == "RECEIVED") {
-    <div>
-      <button (click)="sendFriendRequest(user)">
-        Accept Friendship
-      </button>
-    </div>
-  } @else if (friendshipStatus == "NONE") {
-    <div>
-      <button (click)="friendshipService.sendFriendshipRequest(user)">
-        Add Friend
-      </button>
-    </div>
-  } @else if (friendshipStatus != "SAMEPERSON") {
-    <div>
-      <button (click)="friendshipService.sendFriendshipRequest(user)">
-        {{ friendshipStatus }}
-      </button>
-    </div>
-  } @else {
-    <div>
-      <h2>Your profile page!</h2>
-    </div>
-  }
 
   <div class="row">
     <div class="col">
       <div>
         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-        <img src="{{imageService.getImageElement(user.profileImage)}}" width="200px" height="200px" alt="profile image">
+        <img src="{{imageService.getImageElement(user.profileImage!)}}" width="200px" height="200px" alt="profile image">
       </div>
+
+      <div>{{ user.bio }}</div>
+
     </div>
 
     <div class="col">
       <div id="content">
-        @for (post of posts; track post.id) {
+        @for (post of posts; track post.uuid) {
           <app-post [post]="post"></app-post>
         }
       </div>
@@ -45,4 +23,5 @@
 
 } @else {
   <app-loading-page/>
+
 }

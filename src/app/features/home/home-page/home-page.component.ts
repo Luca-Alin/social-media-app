@@ -1,11 +1,9 @@
 import {Component, HostListener, OnInit} from "@angular/core";
 import {PostService} from "../../../core/http/post-service/post.service";
 import {PostDTO} from "../../../core/http/post-service/model/PostDTO";
-import {ImageService} from "../../../core/services/image-service/ImageService";
 import {NgOptimizedImage} from "@angular/common";
 import {NgbCarousel, NgbSlide} from "@ng-bootstrap/ng-bootstrap";
 import {PostComponent} from "../../../shared/post/post.component";
-import {GlobalService} from "../../../core/services/global.service";
 import {LoadingPageComponent} from "../../../core/layout/components/loading-page/loading-page.component";
 
 @Component({
@@ -16,7 +14,7 @@ import {LoadingPageComponent} from "../../../core/layout/components/loading-page
     NgbCarousel,
     NgbSlide,
     PostComponent,
-    LoadingPageComponent
+    LoadingPageComponent,
   ],
   templateUrl: "./home-page.component.html",
   styleUrl: "./home-page.component.css"
@@ -27,6 +25,7 @@ export class HomePageComponent implements OnInit {
   isLoading: boolean = false;
   loadingNextSetOfPosts: boolean = false;
   allPostsLoaded: boolean = false;
+
   constructor(private postService: PostService) {
   }
 

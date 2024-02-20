@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, isDevMode, OnInit} from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {DarkThemeButtonComponent} from "./core/layout/components/dark-theme-button/dark-theme-button.component";
@@ -19,5 +19,4 @@ import {SharedModule} from "./shared/shared.module";
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'social-media-app';
 }
