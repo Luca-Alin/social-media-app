@@ -34,6 +34,7 @@ import {AuthInterceptor} from "./http/interceptor/auth.interceptor";
     PostService,
     ImageService,
     UserService,
+
     GlobalService,
     {
       provide: HTTP_INTERCEPTORS,
